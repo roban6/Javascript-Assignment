@@ -6,15 +6,23 @@ const parts = {
   object: ["a magic key", "a talking sandwich", "a golden map", "a funny hat"],
   ending: ["and saved the day!", "and made new friends.", "and learned to fly!", "and laughed forever."]
 };
+
 // Store the selected indexes
-let current = { who: 0, where: 0, action: 0, object: 0, ending: 0 };
-let current = { who: 0, where: 0, action: 0, object: 0, ending: 0 };
+const current = { who: 0, where: 0, action: 0, object: 0, ending: 0 };
+
+// Helper to update visible text
+function updatePartText(part) {
+  document.getElementById(part + "Text").textContent = parts[part][current[part]];
+}
+
+// Initialize all text on load
+Object.keys(parts).forEach(updatePartText);
 
 // Cycle through choices
 function cycle(part) {
   const list = parts[part];
   current[part] = (current[part] + 1) % list.length;
-  document.getElementById(part + "Text").textContent = list[current[part]];
+  updatePartText(part);
 }
 
 // Build and show the story
@@ -23,12 +31,11 @@ function tellStory() {
   document.getElementById("storyBox").textContent = story;
 }
 
-
 // Pick random story
 function randomStory() {
   for (let part in parts) {
     current[part] = Math.floor(Math.random() * parts[part].length);
-    document.getElementById(part + "Text").textContent = parts[part][current[part]];
+    updatePartText(part);
   }
   tellStory();
 }
@@ -37,17 +44,17 @@ function randomStory() {
 function resetStory() {
   for (let part in parts) {
     current[part] = 0;
-    document.getElementById(part + "Text").textContent = "";
+    updatePartText(part);
   }
   document.getElementById("storyBox").textContent = "Your story will appear here.";
 }
 
 // Attach button actions
-whoBtn.onclick = () => cycle("who");
-whereBtn.onclick = () => cycle("where");
-actionBtn.onclick = () => cycle("action");
-objectBtn.onclick = () => cycle("object");
-endingBtn.onclick = () => cycle("ending");
-tellBtn.onclick = tellStory;
-randomBtn.onclick = randomStory;
-resetBtn.onclick = resetStory;
+document.getElementById("whoBtn").onclick = () => cycle("who");
+document.getElementById("whereBtn").onclick = () => cycle("where");
+document.getElementById("actionBtn").onclick = () => cycle("action");
+document.getElementById("objectBtn").onclick = () => cycle("object");
+document.getElementById("endingBtn").onclick = () => cycle("ending");
+document.getElementById("tellBtn").onclick = tellStory;
+document.getElementById("randomBtn").onclick = randomStory;
+document.getElementById("resetBtn").onclick = resetStory;
