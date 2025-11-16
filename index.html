@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Lab 5 | COMP1073 Client-Side JavaScript</title>
-  <link href="css/normalize.css" rel="stylesheet" />
-  <link href="css/styles.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>Smoothie Machine</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>Lab 5: Page Color Changer</h1>
 
-  <p>
-    Use the sliders below to adjust the <abbr title="Red, Green, Blue">RGB</abbr> values
-    and change the page's <code>background-color</code>.
-  </p>
+<h1>Smoothie Machine</h1>
 
-  <!-- Red Slider -->
-  <label for="red">Red</label>
-  <input id="red" type="range" min="0" max="255" value="0" />
+<!-- FORM START -->
+<form id="smoothieForm">
 
-  <!-- Green Slider -->
-  <label for="green">Green</label>
-  <input id="green" type="range" min="0" max="255" value="0" />
+  <label for="size">Size:</label>
+  <select id="size">
+    <option>Small</option>
+    <option>Medium</option>
+    <option>Large</option>
+  </select>
 
-  <!-- Blue Slider -->
-  <label for="blue">Blue</label>
-  <input id="blue" type="range" min="0" max="255" value="0" />
+  <label for="base">Base:</label>
+  <select id="base">
+    <option>Milk</option>
+    <option>Almond Milk</option>
+    <option>Oat Milk</option>
+    <option>Yogurt</option>
+  </select>
 
-  <!-- Optional color preview -->
-  <p>Current color: <span id="colorValue">rgb(0, 0, 0)</span></p>
+  <label for="ingredients">Ingredients (comma-separated):</label>
+  <input type="text" id="ingredients" placeholder="Banana, Mango">
 
-  <!-- Load JavaScript at the end (best practice) -->
-  <script src="js/page-color-changer.js"></script>
+  <label for="sweetness">Sweetness:</label>
+  <select id="sweetness">
+    <option>Unsweetened</option>
+    <option>Lightly Sweetened</option>
+    <option>Normal</option>
+    <option>Very Sweet</option>
+  </select>
+
+  <button type="button" id="orderBtn">Order Smoothie</button>
+
+</form>
+<!-- FORM END -->
+
+<!-- SMOOTHIE IMAGE -->
+<img id="smoothieImg" src="images/smoothie.png" style="display:none; width:150px; margin:20px auto;">
+
+<!-- OUTPUT AREA -->
+<div id="output"></div>
+
+<!-- JAVASCRIPT FILES -->
+<script src="script.js"></script>
+<script src="main.js"></script>
+
 </body>
 </html>

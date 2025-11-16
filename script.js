@@ -1,60 +1,56 @@
-// Word options for each part
-const parts = {
-  who: ["A brave astronaut", "A silly pirate", "A tiny robot", "A clever cat"],
-  where: ["on the moon", "in a haunted house", "under the sea", "in a big city"],
-  action: ["found", "lost", "built", "danced with"],
-  object: ["a magic key", "a talking sandwich", "a golden map", "a funny hat"],
-  ending: ["and saved the day!", "and made new friends.", "and learned to fly!", "and laughed forever."]
-};
+document.getElementById("orderBtn").addEventListener("click", function () {
+  const size = document.getElementById("size").value;
+  const base = document.getElementById("base").value;
+  const ingredients = document.getElementById("ingredients").value.split(",").map(i => i.trim());
+  const sweetness = document.getElementById("sweetness").value;
 
-// Store the selected indexes
-const current = { who: 0, where: 0, action: 0, object: 0, ending: 0 };
+  const smoothie = new Smoothie(size, base, ingredients, sweetness);
 
-// Helper to update visible text
-function updatePartText(part) {
-  document.getElementById(part + "Text").textContent = parts[part][current[part]];
-}
-
-// Initialize all text on load
-Object.keys(parts).forEach(updatePartText);
-
-// Cycle through choices
-function cycle(part) {
-  const list = parts[part];
-  current[part] = (current[part] + 1) % list.length;
-  updatePartText(part);
-}
-
-// Build and show the story
-function tellStory() {
-  const story = `${parts.who[current.who]} ${parts.where[current.where]} ${parts.action[current.action]} ${parts.object[current.object]} ${parts.ending[current.ending]}`;
-  document.getElementById("storyBox").textContent = story;
-}
-
-// Pick random story
-function randomStory() {
-  for (let part in parts) {
-    current[part] = Math.floor(Math.random() * parts[part].length);
-    updatePartText(part);
+  document.getElementById("output").innerHTML = smoothie.description();
+  document.getElementById("smoothieImg").style.display = "block";
+});
+// script.js
+class Smoothie {
+  constructor(size, base, ingredients, sweetness) {
+    this.size = size;
+    this.base = base;
+    this.ingredients = ingredients;
+    this.sweetness = sweetness;
   }
-  tellStory();
-}
 
-// Reset everything
-function resetStory() {
-  for (let part in parts) {
-    current[part] = 0;
-    updatePartText(part);
+  // Price calculator
+  calculatePrice() {
+    const ingredientPrices = {
+      Banana: 1,
+      Mango: 1.5,
+      Spinach: 0.5,
+      Strawberry: 1.25,
+      Protein: 2,
+      Blueberry: 1.25,
+      Pineapple: 1.5
+    };
+
+    let total = 4; // base price for smoothie
+
+    this.ingredients.forEach(ing => {
+      let cleaned = ing.trim();
+      if (ingredientPrices[cleaned]) {
+        total += ingredientPrices[cleaned];
+      }
+    });
+
+    return total.toFixed(2);
   }
-  document.getElementById("storyBox").textContent = "Your story will appear here.";
-}
 
-// Attach button actions
-document.getElementById("whoBtn").onclick = () => cycle("who");
-document.getElementById("whereBtn").onclick = () => cycle("where");
-document.getElementById("actionBtn").onclick = () => cycle("action");
-document.getElementById("objectBtn").onclick = () => cycle("object");
-document.getElementById("endingBtn").onclick = () => cycle("ending");
-document.getElementById("tellBtn").onclick = tellStory;
-document.getElementById("randomBtn").onclick = randomStory;
-document.getElementById("resetBtn").onclick = resetStory;
+  // Output description including price
+  description() {
+    return `
+      <h3>Your Smoothie</h3>
+      <p><strong>Size:</strong> ${this.size}</p>
+      <p><strong>Base:</strong> ${this.base}</p>
+      <p><strong>Ingredients:</strong> ${this.ingredients.join(", ")}</p>
+      <p><strong>Sweetness:</strong> ${this.sweetness}</p>
+      <p><strong>Total Price:</strong> $${this.calculatePrice()}</p>
+    `;
+  }
+}
